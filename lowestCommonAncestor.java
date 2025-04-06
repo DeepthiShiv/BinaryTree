@@ -10,6 +10,7 @@ public class lowestCommonAncestor{
             this.right= null;
         }
     }
+   
     public static boolean getPath(Node root, int n, ArrayList<Node> path){
         if(root==null) return false;
         path.add(root);
@@ -21,6 +22,7 @@ public class lowestCommonAncestor{
         path.remove(path.size()-1);
         return false;
     }
+     //TC- O(n), SC- O(n)
     public static Node lca(Node root, int n1, int n2){
         ArrayList<Node> path1= new ArrayList<>();
         ArrayList<Node> path2 = new ArrayList<>();
@@ -35,6 +37,21 @@ public class lowestCommonAncestor{
         Node lca= path1.get(i-1);
         return lca;
     }
+
+    //TC- O(n), SC- O(1)
+     public static Node lca2(Node root, int n1, int n2){
+        if(root==null || root.data==n1 || root.data==n2){
+            return root;
+        }
+        Node leftLca= lca2(root.left, n1, n2);
+        Node rightLca= lca2(root.right, n1, n2);
+        
+        if(rightLca==null) return leftLca;
+        if(leftLca==null) return rightLca;
+        
+        return root;
+    }
+    
     public static void main(String args[]){
         Node root= new Node(1);
         root.left = new Node(2);
@@ -44,6 +61,7 @@ public class lowestCommonAncestor{
         root.right.left= new Node(6);
         root.right.right= new Node(7);
         System.out.print(lca(root, 4, 5).data);
+        System.out.print(lca2(root, 4, 5).data);
       //input- 4,5 output- 2
       //input- 4,6 output- 1
     }
